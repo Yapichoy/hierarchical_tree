@@ -11,6 +11,5 @@
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
+Route::get('/', 'Tree\MainController@test');
+Route::post('/tree/load', 'Tree\LoadController@load');
