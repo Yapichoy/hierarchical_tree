@@ -49,7 +49,7 @@ class DatabaseSeeder extends Seeder
     private function getSecondLayer(){
         $fio = $this->getRandomNames();
         $position = mt_rand(2,3);
-        $salary = mt_rand(200000,300000);
+        $salary = mt_rand(180000,250000);
         $this->second_layer[] = $this->employee_counter;
         $chef = count($this->first_layer) > 1 ? mt_rand(0, count($this->first_layer)-1):0;
         return [
@@ -66,7 +66,7 @@ class DatabaseSeeder extends Seeder
     private function getThertLayer(){
         $fio = $this->getRandomNames();
         $position = mt_rand(4,5);
-        $salary = mt_rand(150000,200000);
+        $salary = mt_rand(100000,150000);
         $this->third_layer[] = $this->employee_counter;
         $chef = count($this->second_layer) > 1 ? mt_rand(0,count($this->second_layer)-1):0;
         return [
@@ -82,7 +82,7 @@ class DatabaseSeeder extends Seeder
     private function getFourthLayer(){
         $fio = $this->getRandomNames();
         $position = mt_rand(6,7);
-        $salary = mt_rand(80000,150000);
+        $salary = mt_rand(60000,80000);
         $this->fourth_layer[] = $this->employee_counter;
         $chef = count($this->third_layer) > 1 ? mt_rand(0,count($this->third_layer)-1):0;
         return [

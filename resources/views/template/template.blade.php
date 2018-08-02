@@ -8,6 +8,12 @@
             <div class="position">
                 Должность: {{$_layer['denomination']}}
             </div>
+            <div class="date">
+                Дата приема на работу: {{$_layer['date_start_work']}}
+            </div>
+            <div class="salary">
+                Зарплата: {{$_layer['salary']}}
+            </div>
         </div>
     </div>
 </div>

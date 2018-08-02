@@ -29,12 +29,8 @@ class MainController extends Controller
         return $_layer;
     }
     public function test(){
-        $first_layer = Employee::leftJoin('positions','employees.position_id','positions._id')->where('chef_id',0)->paginate(2);
+        $first_layer = Employee::leftJoin('positions','employees.position_id','positions._id')->where('chef_id',0)->paginate(4);
         $second_layer = $this->getEmployee($first_layer);
-        $third_layer = $this->getEmployee($second_layer);
-        $forth_layer = $this->getEmployee($third_layer);
-        $fifth_layer = $this->getEmployee($forth_layer);
-        return view('home',['first_layers'=>$first_layer,'second_layers'=>$second_layer, 'third_layers'=>$third_layer,
-            'forth_layers'=>$forth_layer, 'fifth_layers'=>$fifth_layer]);
+        return view('home',['first_layers'=>$first_layer,'second_layers'=>$second_layer]);
     }
 }

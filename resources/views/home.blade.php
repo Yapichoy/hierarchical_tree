@@ -1,4 +1,5 @@
 @extends('template.app')
+@section('title', 'Главная страница')
 @section('content')
         @foreach($first_layers as $first_layer)
         <div class="row mt-1">

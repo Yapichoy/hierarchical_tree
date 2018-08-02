@@ -8,12 +8,12 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
 
-    <title><?php echo e(config('app.name', 'Laravel')); ?></title>
+    <title><?php echo $__env->yieldContent('title'); ?></title>
 
     <!-- Styles -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/bootstrap-grid.min.css">
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-grid.min.css">
+    <link rel="stylesheet" href="/css/main.css">
 
 
     <!-- Scripts -->
@@ -30,10 +30,27 @@
                 <a class="navbar-brand" href="#">Hierarchical Tree</a>
             </div>
             <div id="navbar" class="collapse navbar-collapse">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active"><a class="nav-link" href="#">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active"><a class="nav-link" href="<?php echo e(url('/')); ?>">Главная</a></li>
+                    <?php if(auth()->guard()->guest()): ?>
+
+                        <li class="nav-item"><a class="nav-link" href="<?php echo e(route('login')); ?>">Войти</a></li>
+                        <li class="nav-item"><a class="nav-link" href="<?php echo e(route('register')); ?>">Регистрация</a></li>
+                    <?php else: ?>
+                        <li class="nav-item"><a class="nav-link" href="<?php echo e(url('/list')); ?>">Список</a></li>
+                        <li class="nav-item">
+                                <a class="nav-link" href="<?php echo e(route('logout')); ?>"
+                                   onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                    <?php echo e(__('Logout')); ?>
+
+                                </a>
+
+                                <form id="logout-form" action="<?php echo e(route('logout')); ?>" method="POST" style="display: none;">
+                                    <?php echo csrf_field(); ?>
+                                </form>
+                        </li>
+                        <?php endif; ?>
                 </ul>
             </div><!--/.nav-collapse -->
         </div>
@@ -46,8 +63,8 @@
             src="https://code.jquery.com/jquery-3.3.1.min.js"
             integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
             crossorigin="anonymous"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="js/app.js"></script>
-    <script src="js/main.js"></script>
+        <script src="/js/bootstrap.min.js"></script>
+        <script src="/js/app.js"></script>
+    <script src="/js/main.js"></script>
     </body>
 </html>

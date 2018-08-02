@@ -1,3 +1,4 @@
+<?php $__env->startSection('title', 'Главная страница'); ?>
 <?php $__env->startSection('content'); ?>
         <?php $__currentLoopData = $first_layers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $first_layer): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
         <div class="row mt-1">

@@ -8,10 +8,49 @@ html, body{
 .wrapper{
     width: 490px;
     margin-top:10px;
-    border: 2px solid darkred ;
-    height: 160px;
+    border: 2px solid #343a40 ;
+}
+.wrapper .header{
+    text-align: center;
+    color: white;
+    padding: 4px 0;
+    font-size: 19px;
+}
+.wrapper .position, .wrapper .date, .wrapper .salary{
+    text-align: right;
 }
 hr{
     height:2px;
     color: #0b2e13;
+}
+.sort-window{
+    position: fixed;
+    right: 100px;
+    top: 100px;
+    z-index: 10;
+    width: 500px;
+    border: 1px solid black;
+}
+.sort-window .header{
+    text-align: center;
+    padding: 4px 0 ;
+    font-size: 18px;
+    color: white;
+}
+.find-window{
+    position: fixed;
+    right: 100px;
+    top: 400px;
+    z-index: 10;
+    width: 500px;
+    border: 1px solid black;
+}
+.find-window .header{
+    text-align: center;
+    padding: 4px 0 ;
+    font-size: 18px;
+    color: white;
+}
+.error{
+    color: red;
 }
