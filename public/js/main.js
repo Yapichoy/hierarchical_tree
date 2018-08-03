@@ -1,7 +1,7 @@
 function incl(_layer) {
     var text ='<div class="wrapper">' +
         '<div class="header bg-dark">'+_layer['surname']+' '+_layer['name']+' '+_layer['secondname']+'</div>' +
-        '<div class="row p-3"> <div class="col-3 photo">фото </div> <div class="col-9 info">  ';
+        '<div class="row p-3"> <div class="col-3"></div> <div class="col-9 info">  ';
             text += '<div class="position">Должность: ';
             text += _layer['denomination'];
             text += '</div></div> </div></div>';
@@ -10,86 +10,101 @@ function incl(_layer) {
 function template(_layer) {
     var text ='<div class="wrapper">' +
         '<div class="header bg-dark">'+_layer['surname']+' '+_layer['name']+' '+_layer['secondname']+'</div>' +
-        '<div class="row p-3"> <div class="col-3 photo">фото </div> <div class="col-9 info">  ';
+        '<div class="row p-3"> <div class="col-3"></div> <div class="col-9 info">  ';
     text += '<div class="position">Должность: ';
     text += _layer['denomination'];
     text += '</div><div class="date">Дата приема на работу: ';
     text += _layer['date_start_work'];
-    text+= '</div><div class="salary">Зарплата: ';
-    text+= _layer['salary'];
-    text+= '</div></div></div></div>';
+    text += '</div><div class="salary">Зарплата: ';
+    text += _layer['salary'];
+    text += '</div></div></div>';
+    text += '<div class="row p-2"><div class="col-3">';
+    text += '<a class="btn btn-primary" href="http://hierarchy.tree/employee/change/'+_layer['id']+'">Изменить</a>';
+    text += '</div>';
+    text += '<div class="col-3">';
+    text += '<a class="btn btn-primary" href="http://hierarchy.tree/employee/delete/'+_layer['id']+'">Удалить</a>';
+    text += '</div></div></div>';
     return text;
 }
 $(document).ready(function () {
+
     $('.cli').click(function () {
 
         formData = new FormData();
+
         var id = $(this).attr('id');
-        formData.append('chef_id', id);
+        var _html = $('#' + id).children('#load');
+        console.log(_html);
+        if(_html.length == 0) {
 
-        $.ajax(
-            {
-                url: '/tree/load',
-                type: "POST",
-                cache: false,
-                processData: false,
-                contentType: false,
-                data: formData,
-                headers: {
-                    'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
-                },
-                success: function (result) {
-                    var arr = JSON.parse(result);
-                    var third_layer = arr.third_layer;
-                    var  third_length =third_layer.length;
-                    var forth_layer = arr.forth_layer;
-                    var forth_length = forth_layer.length;
-                    var fifth_layer = arr.fifth_layer;
-                    var fifth_length = fifth_layer.length;
-                    var htmlText = '<div id="load">';
-                    //alert(forth_layer[third_layer[0]['id']][0]['name']);
-                    if (third_length!=0){
-                        for(var i = 0; i< third_length; i++){
-                            htmlText += '<div class="employee">';
-                            htmlText += incl(third_layer[i]);
-                            var third_num = third_layer[i]['id'];
-                            if( typeof forth_layer[third_num] != 'undefined' ){
-                                var layer = forth_layer[third_num];
-                                forth_length = layer.length;
-                                for(var j = 0; j<forth_length; j++){
-                                    htmlText += '<div class="employee">';
-                                    htmlText += incl(layer[j]);
-                                    var forth_num = layer[j]['id'];
-                                    if( typeof fifth_layer[forth_num] != 'undefined' ) {
-                                        var _layer = fifth_layer[forth_num];
-                                        fifth_length = _layer.length;
-                                        for (var l= 0; l < fifth_length; l++) {
-                                            htmlText += '<div class="employee">';
-                                            htmlText += incl(_layer[l]);
-                                            htmlText += '</div>';
+            formData.append('chef_id', id);
+
+            $.ajax(
+                {
+                    url: '/tree/load',
+                    type: "POST",
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    data: formData,
+                    headers: {
+                        'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function (result) {
+                        var arr = JSON.parse(result);
+                        var third_layer = arr.third_layer;
+                        var third_length = third_layer.length;
+                        var forth_layer = arr.forth_layer;
+                        var forth_length = forth_layer.length;
+                        var fifth_layer = arr.fifth_layer;
+                        var fifth_length = fifth_layer.length;
+                        var htmlText = '<div id="load">';
+                        if (third_length != 0) {
+                            for (var i = 0; i < third_length; i++) {
+                                htmlText += '<div class="employee">';
+                                htmlText += incl(third_layer[i]);
+                                var third_num = third_layer[i]['id'];
+                                if (typeof forth_layer[third_num] != 'undefined') {
+                                    var layer = forth_layer[third_num];
+                                    forth_length = layer.length;
+                                    for (var j = 0; j < forth_length; j++) {
+                                        htmlText += '<div class="employee">';
+                                        htmlText += incl(layer[j]);
+                                        var forth_num = layer[j]['id'];
+                                        if (typeof fifth_layer[forth_num] != 'undefined') {
+                                            var _layer = fifth_layer[forth_num];
+                                            fifth_length = _layer.length;
+                                            for (var l = 0; l < fifth_length; l++) {
+                                                htmlText += '<div class="employee">';
+                                                htmlText += incl(_layer[l]);
+                                                htmlText += '</div>';
+                                            }
                                         }
+                                        htmlText += '</div>';
                                     }
-                                    htmlText += '</div>';
                                 }
-                            }
                                 htmlText += '</div>';
+                            }
                         }
+                        console.log(fifth_layer);
+                        $('#' + id).append(htmlText);
+
+                    },
+                    error: function (result) {
+                        console.log(result);
                     }
-                    console.log(fifth_layer);
-                    $('#'+id).append(htmlText);
-
-                },
-                error: function (result) {
-                  console.log(result);
                 }
-            }
-        );
-
+            );
+        }
+        else{
+           _html.toggle();
+        }
     });
+
     $('#btn-sort').click(function () {
         formData = new FormData();
         formData.append('r-bat', $('input[name=r-bat]:checked').val());
-        formData.append('check', $('input[name=check]:checked').val())
+        formData.append('check', $('input[name=check]:checked').val());
         $.ajax(
             {
                 url: 'list/sort',
@@ -188,6 +203,40 @@ $(document).ready(function () {
         {
             $('.error').append('Заполните поле');
         }
+    });
+    $('#positions').change(function () {
+        formData = new FormData();
+        formData.append('position_id', $('#positions').val());
+
+        $.ajax(
+            {
+                url: '/positions/get',
+                type: "POST",
+                cache: false,
+                processData: false,
+                contentType: false,
+                data: formData,
+                headers: {
+                    'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function (result) {
+                    var arr = JSON.parse(result);
+                    var chefs = arr.chefs;
+                    console.log(chefs);
+                    var textHtml = '';
+                    $('#chef').empty();
+
+                    if(typeof chefs != 'undefined')
+                        for(var i = 0; i < chefs.length; i++) {
+                            textHtml='<option value="'+chefs[i]['id']+'">'+chefs[i]['surname']+' '+chefs[i]['name']+' '+chefs[i]['secondname']+'</option>';
+                            $("#chef").append(textHtml);
+                        }
+                },
+                error: function (result) {
+                    console.log(result);
+                }
+            }
+        );
     });
 });
 

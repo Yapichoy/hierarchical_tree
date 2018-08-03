@@ -38,6 +38,7 @@
                         <li class="nav-item"><a class="nav-link" href="<?php echo e(route('register')); ?>">Регистрация</a></li>
                     <?php else: ?>
                         <li class="nav-item"><a class="nav-link" href="<?php echo e(url('/list')); ?>">Список</a></li>
+                        <li class="nav-item"><a class="nav-link" href="<?php echo e(url('/employee/create')); ?>">Добавить сотрудника</a></li>
                         <li class="nav-item">
                                 <a class="nav-link" href="<?php echo e(route('logout')); ?>"
                                    onclick="event.preventDefault();

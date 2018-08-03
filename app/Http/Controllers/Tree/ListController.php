@@ -16,7 +16,7 @@ class ListController extends Controller
         switch ($arg)
         {
             case "fio":     $sorting = "surname";break;
-            case "pos":     $sorting = "denomination";break;
+            case "pos":     $sorting = "lvl";break;
             case "date":    $sorting = "date_start_work";break;
             case "salary":  $sorting = "salary";break;
         }

@@ -8,7 +8,7 @@
                     <?php $__currentLoopData = $second_layers[$first_layer['id']]; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $second_layer): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <div class="employee cli" id = <?php echo e($second_layer['id']); ?>>
                            <?php echo $__env->make('template.employee',['_layer'=>$second_layer], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-                            
+
                         </div>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 <?php endif; ?>

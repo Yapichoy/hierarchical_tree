@@ -21,6 +21,9 @@ class DatabaseSeeder extends Seeder
         'Продавец консультант',
         'Матер-приемщик',
         'Инженер по гарантии'
+        ];
+    private $lvl = [
+        1,2,2,3,3,4,4,5,5,5,5
     ];
     private $first_layer = [];
     private $second_layer = [];
@@ -60,7 +63,7 @@ class DatabaseSeeder extends Seeder
             'position_id'   => $position,
             'date_start_work'=> date("Y-m-d H:i:s"),
             'salary'         => $salary,
-            'chef_id'        => $this->first_layer[$chef]
+            'chef_id'        => $this->first_layer[$chef],
         ];
     }
     private function getThertLayer(){
@@ -76,7 +79,7 @@ class DatabaseSeeder extends Seeder
             'position_id'   => $position,
             'date_start_work'=> date("Y-m-d H:i:s"),
             'salary'         => $salary,
-            'chef_id'        => $this->second_layer[$chef]
+            'chef_id'        => $this->second_layer[$chef],
         ];
     }
     private function getFourthLayer(){
@@ -92,7 +95,7 @@ class DatabaseSeeder extends Seeder
             'position_id'   => $position,
             'date_start_work'=> date("Y-m-d H:i:s"),
             'salary'         => $salary,
-            'chef_id'        => $this->third_layer[$chef]
+            'chef_id'        => $this->third_layer[$chef],
         ];
     }
     private function getFifthLayer(){
@@ -107,7 +110,7 @@ class DatabaseSeeder extends Seeder
             'position_id'   => $position,
             'date_start_work'=> date("Y-m-d H:i:s"),
             'salary'         => $salary,
-            'chef_id'        => $this->fourth_layer[$chef]
+            'chef_id'        => $this->fourth_layer[$chef],
         ];
     }
     private function getDirectorParameters(){
@@ -121,7 +124,7 @@ class DatabaseSeeder extends Seeder
             'position_id'   => 1,
             'date_start_work'=> date("Y-m-d H:i:s"),
             'salary'         => 400000,
-            'chef_id'        => 0
+            'chef_id'        => 0,
         ];
     }
     private function generateFirstEmployee(){
@@ -150,7 +153,7 @@ class DatabaseSeeder extends Seeder
     private function generateEmployee(){
         $position_counter = count($this->positions);
         $parameters = [];
-        for($i=0;$i<1000;$i++){
+        for($i=0;$i<50000;$i++){
             $chance = mt_rand()/mt_getrandmax();
             if($chance <= 0.01){
                 $parameters = $this->getDirectorParameters();
@@ -173,10 +176,14 @@ class DatabaseSeeder extends Seeder
     }
     public function run()
     {
-        foreach ($this->positions as $position)
+        $i=0;
+        foreach ($this->positions as $position) {
             DB::table('positions')->insert([
-                'denomination' => $position
+                'denomination' => $position,
+                'lvl' => $this->lvl[$i]
             ]);
+            $i++;
+        }
         $this->generateFirstEmployee();
         $this->generateEmployee();
     }

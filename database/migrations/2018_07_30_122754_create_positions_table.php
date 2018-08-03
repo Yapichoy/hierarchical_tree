@@ -16,6 +16,7 @@ class CreatePositionsTable extends Migration
         Schema::create('positions', function (Blueprint $table) {
             $table->increments('_id');
             $table->string('denomination'); // Название должности
+            $table->integer('lvl')->unsigned();
         });
     }
 

@@ -1,23 +1,13 @@
 @extends('template.app')
 @section('title', 'Список сотрудников')
 @section('content')
-    <div class="wrap">
-    @foreach($employees as $employee)
-        <div class="row mt-1">
-            <div class="employee">
-                @include('template.template',['_layer'=>$employee])
-            </div>
-        </div>
-        <hr>
-    @endforeach
-    </div>
     <div class="sort-window bg-light align-">
         <div class="header bg-dark ">Сортировать список сотрудников</div>
         {{--{!! Form::open(['url' => 'list/sort']) !!}--}}
         <div class="form-group mt-2 p-2">
             <div class="form-check">
-            {!! Form::radio('r-bat','fio', true,['id'=>'rbat']) !!}
-            {!! Form::label('fio','по ФИО',['class'=> ['form-check-label', 'ml-1'],])!!}
+                {!! Form::radio('r-bat','fio', true,['id'=>'rbat']) !!}
+                {!! Form::label('fio','по ФИО',['class'=> ['form-check-label', 'ml-1'],])!!}
             </div>
             <div class="form-check">
                 {!! Form::radio('r-bat','pos',false,['id'=>'rbat']) !!}
@@ -41,7 +31,7 @@
                 {!! Form::radio('check', 'on-low', false) !!}
                 {!! Form::label('check','убывания',['class'=> ['form-check-label', 'ml-1'],])!!}
             </div>
-                {!! Form::submit('Сортировать', ['class'=>['btn','btn-primary','mt-1','ml-1'], 'id' => 'btn-sort']) !!}
+            {!! Form::submit('Сортировать', ['class'=>['btn','btn-primary','mt-1','ml-1'], 'id' => 'btn-sort']) !!}
         </div>
         {{--{!! Form::close() !!}--}}
     </div>
@@ -68,7 +58,7 @@
 
             <div class="form-group">
                 {!! Form::label('search-input','Поиск',['class'=> ['ml-1']])!!}
-                {!! Form::text('search-input', 'Search', ['class'=>'form-control']) !!}
+                {!! Form::text('search-input', null, ['class'=>'form-control']) !!}
             </div>
             <div class="error mb-2">
 
@@ -76,4 +66,15 @@
             {!! Form::submit('Найти', ['class'=>['btn','btn-primary','mt-1','ml-1'], 'id' => 'btn-find']) !!}
         </div>
     </div>
+    <div class="wrap">
+    @foreach($employees as $employee)
+        <div class="row mt-1">
+            <div class="employee">
+                @include('template.template',['_layer'=>$employee])
+            </div>
+        </div>
+        <hr>
+    @endforeach
+    </div>
+
 @endsection

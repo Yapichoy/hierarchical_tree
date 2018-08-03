@@ -38,6 +38,7 @@
                         <li class="nav-item"><a class="nav-link" href="{{route('register')}}">Регистрация</a></li>
                     @else
                         <li class="nav-item"><a class="nav-link" href="{{url('/list')}}">Список</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{url('/employee/create')}}">Добавить сотрудника</a></li>
                         <li class="nav-item">
                                 <a class="nav-link" href="{{ route('logout') }}"
                                    onclick="event.preventDefault();

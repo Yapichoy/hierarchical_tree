@@ -22,6 +22,7 @@ class CreateEmployeesTable extends Migration
             $table->date('date_start_work'); // Дата приема на работу
             $table->double('salary'); // Зарплата
             $table->integer('chef_id')->unsigned(); // id начальника
+            $table->timestamps();
         });
     }
 
