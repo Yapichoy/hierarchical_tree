@@ -26,15 +26,59 @@ function template(_layer) {
     text += '</div></div></div>';
     return text;
 }
-$(document).ready(function () {
+endPage = 0;
+function paginate(cntRecodrs, curPos, cntOnPage){
+    endPage = Math.ceil(cntRecodrs/ cntOnPage);
+    var text = '<ul class="pagination">';
+    if(curPos>1)text+='<li class="page-item" ><span class="page-link pagin"><</span></li>';
+    for(var i = 1; i<= 2; i++){
+        text+='<li class="page-item';
+        if(i == curPos) text+=' active';
+        text+='" >';
+        text+='<span class="page-link pagin">'+i+'</span>';
+        text+='</li>';
+    }
+    if(curPos < 7){start = 3; finish = 8;}
+    else {
+        text+='<li class="page-item" >';
+        text+='<span class="page-link pagin">...</span>';
+        text+='</li>';
+        start = curPos-3; finish = curPos+3;
+    }
+    if(curPos>endPage-5){start = endPage-8; finish = endPage-2;}
+    for(var i = start; i<= finish; i++){
+        text+='<li class="page-item';
+        if(i == curPos) text+=' active';
+        text+='" >';
+            text+='<span class="page-link pagin">'+i+'</span>';
+        text+='</li>';
+    }
+    if(curPos<endPage-5){
+        text+='<li class="page-item" >';
+        text+='<span class="page-link">...</span>';
+        text+='</li>';
+    }
+    for(var i = endPage-1; i<= endPage; i++){
+        text+='<li class="page-item';
+        if(i == curPos) text+=' active';
+        text+='" >';
+        text+='<span class="page-link pagin">'+i+'</span>';
+        text+='</li>';
+    }
+    if(curPos<endPage)text+='<li class="page-item" ><span class="page-link  pagin">></span></li>';
+    text += '</ul>';
+    return text;
+}
 
-    $('.cli').click(function () {
+$(document).ready(function () {
+    var cntPostsOnPage = 50;
+    var employees = null;
+    $('.cli').click(function () { // раскрытие остальных уровней дерева иерархии сотрудников
 
         formData = new FormData();
 
         var id = $(this).attr('id');
         var _html = $('#' + id).children('#load');
-        console.log(_html);
         if(_html.length == 0) {
 
             formData.append('chef_id', id);
@@ -101,7 +145,7 @@ $(document).ready(function () {
         }
     });
 
-    $('#btn-sort').click(function () {
+    $('#btn-sort').click(function () { // обработка сортировки сотрудников
         formData = new FormData();
         formData.append('r-bat', $('input[name=r-bat]:checked').val());
         formData.append('check', $('input[name=check]:checked').val());
@@ -116,20 +160,27 @@ $(document).ready(function () {
                 headers: {
                     'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
                 },
+                beforeSend:function(){
+                    $(".wrap").empty();
+                    $(".wrap").append("Wait!");
+
+                },
                 success: function (result) {
                     var arr = JSON.parse(result);
-                    var employees = arr.employees;
-                    console.log(employees);
+                    employees = arr.employees;
                     var textHtml = '';
                     $(".wrap").empty();
-                    if(typeof employees != 'undefined')
-                        for(var i = 0; i < employees.length; i++) {
-                            textHtml='';
+                    if(typeof employees != 'undefined') {
+                        for (var i = 0; i < cntPostsOnPage; i++) {
+                            textHtml = '';
                             textHtml += '<div class = "row mt-1" ><div class = "employee" >';
                             textHtml += template(employees[i]);
                             textHtml += '</div ></div ><hr>';
                             $(".wrap").append(textHtml);
                         }
+                        $(".wrap").append(paginate(employees.length,1,cntPostsOnPage));
+                    }
+
 
                 },
                 error: function (result) {
@@ -238,6 +289,35 @@ $(document).ready(function () {
             }
         );
     });
+    var prevPage = 1;
+    $('.pagin').live('click',function () {
+       var curPage = $(this).html().trim();
+        //alert(curPage);
+        if(curPage == '&lt;') curPage= prevPage-1;
+        else if (curPage=='&gt;')curPage = prevPage+1;
+        else curPage = Number(curPage);
+        if(curPage == prevPage)return;
+        var begin = (curPage-1)*cntPostsOnPage;
+        var end = curPage*cntPostsOnPage;
+        if(curPage == endPage) end = (employees.length/cntPostsOnPage)*cntPostsOnPage;
+        $(".wrap").empty();
+        for (var i = begin; i < end; i++) {
+            textHtml = '';
+            textHtml += '<div class = "row mt-1" ><div class = "employee" >';
+            textHtml += template(employees[i]);
+            textHtml += '</div ></div ><hr>';
+            $(".wrap").append(textHtml);
+        }
+        $(".wrap").append(paginate(employees.length,curPage,cntPostsOnPage));
+
+        prevPage = curPage;
+
+
+
+    });
+
+
+
 });
 
 

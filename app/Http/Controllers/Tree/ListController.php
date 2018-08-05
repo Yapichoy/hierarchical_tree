@@ -11,6 +11,11 @@ class ListController extends Controller
     {
         $this->middleware('auth');
     }
+
+    /**
+     * @param $arg
+     * @return string
+     */
     private function _switch($arg){
         $sorting = "surname";
         switch ($arg)
@@ -22,7 +27,11 @@ class ListController extends Controller
         }
         return $sorting;
     }
-    public function sort(Request $request){
+
+    /**
+     * @param Request $request
+     */
+    public function sort(Request $request){ // сортировка сотрудников
         $post = $request->post();
         //["r-bat"]=> string(3) "pos" ["check"]=> string(7) "on-high" }
 
@@ -38,7 +47,11 @@ class ListController extends Controller
         print_r(json_encode($res));
         //return view('list',compact('employees'));
     }
-    public function search(Request $request){
+
+    /**
+     * @param Request $request
+     */
+    public function search(Request $request){ // поиск сотрудников
         $post = $request->post();
         $search_input = $post['search-input'];
         switch ($post['s-bat'])
@@ -62,7 +75,7 @@ class ListController extends Controller
     public function show(){
         $employees = Employee::leftJoin('positions','employees.position_id','positions._id')
             ->select('employees.*', 'positions.denomination')
-            ->get();
+            ->paginate(50);
         return view('list',compact('employees'));
     }
 }

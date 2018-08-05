@@ -75,6 +75,7 @@
         </div>
         <hr>
     @endforeach
+        {{$employees->links()}}
     </div>
 
 @endsection

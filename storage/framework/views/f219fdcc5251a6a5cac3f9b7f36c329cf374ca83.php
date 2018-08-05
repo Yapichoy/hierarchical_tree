@@ -60,12 +60,13 @@
             <?php echo $__env->yieldContent('content'); ?>
         </div>
     <!-- Scripts -->
+ 
     <script
-            src="https://code.jquery.com/jquery-3.3.1.min.js"
-            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            src="http://code.jquery.com/jquery-1.7.2.min.js"
+            integrity="sha256-R7aNzoy2gFrVs+pNJ6+SokH04ppcEqJ0yFLkNGoFALQ="
             crossorigin="anonymous"></script>
         <script src="/js/bootstrap.min.js"></script>
-        <script src="/js/app.js"></script>
+        
     <script src="/js/main.js"></script>
     </body>
 </html>
